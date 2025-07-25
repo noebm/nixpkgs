@@ -28,6 +28,12 @@
 }:
 
 let
+  filter-patches =
+    excluded-patches: patches:
+    builtins.filter (
+      x: !builtins.any (patch: (lib.strings.hasSuffix patch (builtins.baseNameOf x))) excluded-patches
+    ) patches;
+
   llvmPackagesNoBintools = llvmPackages_19.override {
     bootBintools = null;
     bootBintoolsNoLibc = null;
@@ -428,16 +434,29 @@ rec {
   clang-tools = llvmPackagesRocm.clang-tools.override {
     inherit clang-unwrapped clang;
   };
-  compiler-rt-libc = llvmPackagesRocm.compiler-rt-libc.overrideAttrs (old: {
-    patches = old.patches ++ [
-      (fetchpatch {
-        name = "Fix-missing-main-function-in-float16-bfloat16-support-checks.patch";
-        url = "https://github.com/ROCm/llvm-project/commit/68d8b3846ab1e6550910f2a9a685690eee558af2.patch";
-        hash = "sha256-Db+L1HFMWVj4CrofsGbn5lnMoCzEcU+7q12KKFb17/g=";
-        relative = "compiler-rt";
-      })
-    ];
-  });
+  compiler-rt-libc = llvmPackagesRocm.compiler-rt-libc.overrideAttrs (
+    old:
+    let
+      excluded-patches = [
+        "armv6-scudo-libatomic.patch"
+        "14ae0a660a38e1feb151928a14f35ff0f4487351.patch"
+        # "darwin-plistbuddy-workaround.patch"
+        # "armv6-no-ldrexd-strexd.patch"
+        # "normalize-var.patch"
+        # "X86-support-extension.patch"
+      ];
+    in
+    {
+      patches = filter-patches excluded-patches old.patches ++ [
+        (fetchpatch {
+          name = "Fix-missing-main-function-in-float16-bfloat16-support-checks.patch";
+          url = "https://github.com/ROCm/llvm-project/commit/68d8b3846ab1e6550910f2a9a685690eee558af2.patch";
+          hash = "sha256-Db+L1HFMWVj4CrofsGbn5lnMoCzEcU+7q12KKFb17/g=";
+          relative = "compiler-rt";
+        })
+      ];
+    }
+  );
   compiler-rt = compiler-rt-libc;
   bintools = wrapBintoolsWith {
     bintools = llvmPackagesRocm.bintools-unwrapped.override {
