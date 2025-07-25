@@ -1,7 +1,7 @@
 {
   lib,
   stdenv,
-  llvmPackages_18,
+  llvmPackages_19,
   overrideCC,
   rocm-device-libs,
   rocm-runtime,
@@ -28,7 +28,7 @@
 }:
 
 let
-  llvmPackagesNoBintools = llvmPackages_18.override {
+  llvmPackagesNoBintools = llvmPackages_19.override {
     bootBintools = null;
     bootBintoolsNoLibc = null;
   };
@@ -37,7 +37,7 @@ let
   llvmStdenv = overrideCC llvmPackagesNoBintools.libcxxStdenv llvmPackagesNoBintools.clangUseLLVM;
   llvmLibstdcxxStdenv = overrideCC llvmPackagesNoBintools.stdenv (
     llvmPackagesNoBintools.libstdcxxClang.override {
-      inherit (llvmPackages_18) bintools;
+      inherit (llvmPackages_19) bintools;
     }
   );
   stdenvToBuildRocmLlvm = if useLibcxx then llvmStdenv else llvmLibstdcxxStdenv;
@@ -88,9 +88,9 @@ let
         ln -s $out $out/x86_64-unknown-linux-gnu
       '';
     };
-  version = "6.3.1";
+  version = "6.4.2";
   # major version of this should be the clang version ROCm forked from
-  rocmLlvmVersion = "18.0.0-${llvmSrc.rev}";
+  rocmLlvmVersion = "19.0.0-${llvmSrc.rev}";
   usefulOutputs =
     drv:
     builtins.filter (x: x != null) [
@@ -100,18 +100,16 @@ let
     ];
   listUsefulOutputs = builtins.concatMap usefulOutputs;
   llvmSrc = fetchFromGitHub {
-    # Performance improvements cherry-picked on top of rocm-6.3.x
-    # most importantly, amdgpu-early-alwaysinline memory usage fix
-    owner = "LunNova";
-    repo = "llvm-project-rocm";
-    rev = "4182046534deb851753f0d962146e5176f648893";
-    hash = "sha256-sPmYi1WiiAqnRnHVNba2nPUxGflBC01FWCTNLPlYF9c=";
+    owner = "ROCm";
+    repo = "llvm-project";
+    tag = "rocm-${version}";
+    hash = "sha256-12ftH5fMPAsbcEBmhADwW1YY/Yxo/MAK1FafKczITMg=";
   };
   llvmSrcFixed = llvmSrc;
   llvmMajorVersion = lib.versions.major rocmLlvmVersion;
   # An llvmPackages (pkgs/development/compilers/llvm/) built from ROCm LLVM's source tree
   # optionally using LLVM libcxx
-  llvmPackagesRocm = llvmPackages_18.override (_old: {
+  llvmPackagesRocm = llvmPackages_19.override (_old: {
     stdenv = stdenvToBuildRocmLlvm; # old.stdenv #llvmPackagesNoBintools.libcxxStdenv;
 
     # not setting gitRelease = because that causes patch selection logic to use git patches
