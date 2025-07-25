@@ -202,6 +202,7 @@ rec {
       zstd
       zlib
     ];
+    patches = old.patches ++ [ ./gold-plugin.patch ];
     env.NIX_BUILD_ID_STYLE = "fast";
     postPatch = ''
       ${old.postPatch or ""}
