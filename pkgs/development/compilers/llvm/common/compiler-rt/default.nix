@@ -288,7 +288,7 @@ stdenv.mkDerivation (finalAttrs: {
             --replace-fail "distutils.spawn." ""
         ''
     +
-      lib.optionalString (lib.versionAtLeast release_version "19")
+      lib.optionalString (lib.versionAtLeast release_version "20")
         # codesign in sigtool doesn't support the various options used by the build
         # and is present in the bootstrap-tools. Removing find_program prevents the
         # build from trying to use it and failing.
