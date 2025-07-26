@@ -451,6 +451,14 @@ rec {
           hash = "sha256-Db+L1HFMWVj4CrofsGbn5lnMoCzEcU+7q12KKFb17/g=";
           relative = "compiler-rt";
         })
+        # GLIBC 2.40 cause build failures due to overloads. See https://github.com/llvm/llvm-project/issues/100754.
+        # This adds the PR for https://github.com/llvm/llvm-project/pull/100986/
+        (fetchpatch {
+          name = "Avoid-overload-ambiguity-for-interceptors.patch";
+          url = "https://github.com/llvm/llvm-project/commit/256149db05b803f22e7baadbccb8c0c097c7ee27.patch";
+          hash = "sha256-pgpN1q1vIQrPXHPxNSZ6zfgV2EflHO5Amzl+2BDjXbs=";
+          relative = "compiler-rt";
+        })
       ];
     }
   );
