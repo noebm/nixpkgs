@@ -441,10 +441,6 @@ rec {
       excluded-patches = [
         "armv6-scudo-libatomic.patch"
         "14ae0a660a38e1feb151928a14f35ff0f4487351.patch"
-        # "darwin-plistbuddy-workaround.patch"
-        # "armv6-no-ldrexd-strexd.patch"
-        # "normalize-var.patch"
-        # "X86-support-extension.patch"
       ];
     in
     {
