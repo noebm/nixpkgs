@@ -161,6 +161,7 @@ let
     (
       (lib.strings.hasSuffix "add-nostdlibinc-flag.patch" (builtins.baseNameOf x))
       || (lib.strings.hasSuffix "clang-at-least-16-LLVMgold-path.patch" (builtins.baseNameOf x))
+      || (lib.strings.hasSuffix "gnu-install-dirs.patch" (builtins.baseNameOf x))
     );
   llvmTargetsFlag = "-DLLVM_TARGETS_TO_BUILD=AMDGPU;${
     {
@@ -385,6 +386,7 @@ rec {
             ]
             ++ lib.optionals (!useLibcxx) [
               # FIXME: Config file in rocmcxx instead of GCC_INSTALL_PREFIX?
+              "-DUSE_DEPRECATED_GCC_INSTALL_PREFIX=ON"
               "-DGCC_INSTALL_PREFIX=${gcc-prefix}"
             ];
           postFixup = (old.postFixup or "") + ''
