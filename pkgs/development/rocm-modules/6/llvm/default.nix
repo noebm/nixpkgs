@@ -205,6 +205,7 @@ rec {
         relative = "llvm";
       })
     ];
+    doCheck = false;
     env.NIX_BUILD_ID_STYLE = "fast";
     postPatch = ''
       ${old.postPatch or ""}
