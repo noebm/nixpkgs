@@ -55,7 +55,7 @@ let
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "clr";
-  version = "6.3.3";
+  version = "6.4.2";
 
   outputs = [
     "out"
@@ -66,7 +66,7 @@ stdenv.mkDerivation (finalAttrs: {
     owner = "ROCm";
     repo = "clr";
     rev = "rocm-${finalAttrs.version}";
-    hash = "sha256-4qjfnn0kto2sNaSumXxHRHFrf3a3RZILOdhVSxkEs1I=";
+    hash = "sha256-DOAAuC9TN1//v56GXyUMJwQHgOuctC+WsC5agrgL+QM=";
   };
 
   nativeBuildInputs = [
