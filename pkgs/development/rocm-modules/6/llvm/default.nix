@@ -390,8 +390,16 @@ rec {
               "-DUSE_DEPRECATED_GCC_INSTALL_PREFIX=ON"
               "-DGCC_INSTALL_PREFIX=${gcc-prefix}"
             ];
+          preInstall = ''
+            # HACK: for major version == 19 nixpkgs llvm expects this to exist, but rocm llvm uses $lib correctly
+            mkdir -p $lib/lib
+          '';
           postFixup = (old.postFixup or "") + ''
+            mv $out/lib/* $lib/lib/
+            rm -rf $out/lib
+            find $lib -type f -exec remove-references-to -t ${stdenvToBuildRocmLlvm} {} +
             find $lib -type f -exec remove-references-to -t ${stdenvToBuildRocmLlvm.cc} {} +
+            find $lib -type f -exec remove-references-to -t ${stdenvToBuildRocmLlvm.cc.cc} {} +
             find $lib -type f -exec remove-references-to -t ${stdenv.cc} {} +
             find $lib -type f -exec remove-references-to -t ${stdenv.cc.cc} {} +
             find $lib -type f -exec remove-references-to -t ${stdenv.cc.bintools} {} +
