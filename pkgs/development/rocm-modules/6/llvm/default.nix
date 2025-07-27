@@ -202,7 +202,14 @@ rec {
       zstd
       zlib
     ];
-    patches = old.patches ++ [ ./gold-plugin.patch ];
+    patches = old.patches ++ [
+      (fetchpatch {
+        name = "gold-plugin-fix.patch";
+        url = "https://github.com/llvm/llvm-project/commit/b0baa1d8bd68a2ce2f7c5f2b62333e410e9122a1.patch";
+        hash = "sha256-yly93PvGIXOnFeDGZ2W+W6SyhdWFM6iwA+qOeaptrh0=";
+        relative = "llvm";
+      })
+    ];
     env.NIX_BUILD_ID_STYLE = "fast";
     postPatch = ''
       ${old.postPatch or ""}
