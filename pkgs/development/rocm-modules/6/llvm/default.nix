@@ -108,7 +108,7 @@ let
   llvmSrc = fetchFromGitHub {
     owner = "ROCm";
     repo = "llvm-project";
-    tag = "rocm-${version}";
+    rev = "rocm-${version}";
     hash = "sha256-12ftH5fMPAsbcEBmhADwW1YY/Yxo/MAK1FafKczITMg=";
   };
   llvmSrcFixed = llvmSrc;
