@@ -2,7 +2,6 @@
   lib,
   stdenv,
   fetchFromGitHub,
-  fetchpatch,
   rocmUpdateScript,
   cmake,
   rocm-cmake,
@@ -63,7 +62,7 @@ let
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "rocblas${clr.gpuArchSuffix}";
-  version = "6.3.3";
+  version = "6.4.2";
 
   outputs = [
     "out"
@@ -73,7 +72,7 @@ stdenv.mkDerivation (finalAttrs: {
     owner = "ROCm";
     repo = "rocBLAS";
     rev = "rocm-${finalAttrs.version}";
-    hash = "sha256-IYcrVcGH4yZDkFZeNOJPfG0qsPS/WiH0fTSUSdo1BH4=";
+    hash = "sha256-FCzo/BOk4xLEFkdOdqcCXh4a9t3/OIIBEy8oz6oOMWg=";
   };
 
   nativeBuildInputs = [
@@ -162,20 +161,10 @@ stdenv.mkDerivation (finalAttrs: {
 
   passthru.amdgpu_targets = gpuTargets';
 
-  patches = [
-    (fetchpatch {
-      name = "Extend-rocBLAS-HIP-ISA-compatibility.patch";
-      url = "https://github.com/GZGavinZhao/rocBLAS/commit/89b75ff9cc731f71f370fad90517395e117b03bb.patch";
-      hash = "sha256-W/ohOOyNCcYYLOiQlPzsrTlNtCBdJpKVxO8s+4G7sjo=";
-    })
-  ];
-
   # Pass $NIX_BUILD_CORES to Tensile
   postPatch = ''
     substituteInPlace cmake/build-options.cmake \
       --replace-fail 'Tensile_CPU_THREADS ""' 'Tensile_CPU_THREADS "$ENV{NIX_BUILD_CORES}"'
-    substituteInPlace CMakeLists.txt \
-      --replace-fail "4.42.0" "4.43.0"
   '';
 
   passthru.updateScript = rocmUpdateScript {
