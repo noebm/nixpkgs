@@ -21,8 +21,6 @@
 
 buildPythonPackage rec {
   pname = if isTensileLite then "tensilelite" else "tensile";
-  # Using a specific commit which has code object compression support from after the 6.3 release
-  # Without compression packages are too large for hydra
   version = "6.4.2";
   format = "pyproject";
 
@@ -82,9 +80,7 @@ buildPythonPackage rec {
       url = "https://github.com/GZGavinZhao/Tensile/commit/855cb15839849addb0816a6dde45772034a3e41f.patch";
     })
     ++ lib.optional isTensileLite ./tensilelite-create-library-dont-copy-twice.diff
-    ++ lib.optional isTensileLite ./tensilelite-gen_assembly-venv-err-handling.diff
-    ++ lib.optional isTensileLite ./tensilelite-compression.diff;
-
+    ++ lib.optional isTensileLite ./tensilelite-gen_assembly-venv-err-handling.diff;
   doCheck = false; # Too many errors, not sure how to set this up properly
 
   nativeCheckInputs = [
