@@ -59,13 +59,13 @@ stdenv.mkDerivation (
   in
   {
     pname = "hipblaslt${clr.gpuArchSuffix}";
-    version = "6.3.3";
+    version = "6.4.2";
 
     src = fetchFromGitHub {
       owner = "ROCm";
       repo = "hipBLASLt";
       rev = "rocm-${finalAttrs.version}";
-      hash = "sha256-ozfHwsxcczzYXN9SIkyfRvdtaCqlDN4bh3UHZNS2oVQ=";
+      hash = "sha256-CvnGEAgb1jgo3W3APwyT6nvil8JPMEd/UNonvzz53fs=";
     };
     env.CXX = compiler;
     env.CFLAGS = cFlags;
