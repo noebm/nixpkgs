@@ -15,8 +15,9 @@ let
   esmi_ib_src = fetchFromGitHub {
     owner = "amd";
     repo = "esmi_ib_library";
-    rev = "esmi_pkg_ver-3.0.3";
-    hash = "sha256-q0w5c5c+CpXkklmSyfzc+sbkt4cHNxscGJA3AXwvHxQ=";
+    # `current_esmi_tag` in CMakeLists.txt
+    rev = "esmi_pkg_ver-4.1.2";
+    hash = "sha256-wj3krY/6AdmnoNOSqN9EE/Yxbx++0AW2vu7dovQrQ9I=";
   };
 in
 stdenv.mkDerivation (finalAttrs: {
@@ -36,16 +37,10 @@ stdenv.mkDerivation (finalAttrs: {
 
     # Manually unpack esmi_ib_src and add amd_hsmp.h so execute-process git clone doesn't run
     cp -rf --no-preserve=mode ${esmi_ib_src} ./esmi_ib_library
-    mkdir -p ./esmi_ib_library/include/asm
-    cp ./include/amd_smi/impl/amd_hsmp.h ./esmi_ib_library/include/asm/amd_hsmp.h
   '';
 
   patches = [
-    # Fix ld.lld undefined reference: drmGetVersion
-    (fetchpatch {
-      url = "https://github.com/ROCm/amdsmi/commit/c3864bf6171970d86dc50fd23f06377736823997.patch";
-      hash = "sha256-zRG1tBD8sIQCWdKfCbXC/Z/6d6NTrRYvRpddPWdM4j8=";
-    })
+    ./remove-git-cmakelists.patch
   ];
 
   nativeBuildInputs = [

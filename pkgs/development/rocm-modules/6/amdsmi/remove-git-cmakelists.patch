@@ -1,0 +1,21 @@
+--- src/CMakeLists.txt	2025-07-28 14:25:59.658934651 +0200
++++ src/CMakeLists.txt	2025-07-28 14:26:58.613362693 +0200
+@@ -108,17 +108,7 @@
+     else()
+         message(STATUS "esmi_ib_library already installed, checking version...")
+ 
+-        # Grab latest commit and get the tag
+-        execute_process(
+-            COMMAND git rev-list --tags --max-count=1
+-            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/esmi_ib_library
+-            OUTPUT_VARIABLE latest_commit
+-            OUTPUT_STRIP_TRAILING_WHITESPACE)
+-        execute_process(
+-            COMMAND git describe --tags ${latest_commit} --match "*pkg*"
+-            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/esmi_ib_library
+-            OUTPUT_VARIABLE latest_esmi_tag
+-            OUTPUT_STRIP_TRAILING_WHITESPACE)
++        set(latest_esmi_tag ${current_esmi_tag})
+ 
+         # Update to latest tags if not matched
+         if(NOT latest_esmi_tag STREQUAL current_esmi_tag)
