@@ -124,28 +124,6 @@ stdenv.mkDerivation (finalAttrs: {
 
   patches = [
     ./cmake-find-x11-libgl.patch
-
-    (fetchpatch {
-      # Fix handling of old fatbin version https://github.com/ROCm/clr/issues/99
-      sha256 = "sha256-CK/QwgWJQEruiG4DqetF9YM0VEWpSiUMxAf1gGdJkuA=";
-      url = "https://src.fedoraproject.org/rpms/rocclr/raw/rawhide/f/0001-handle-v1-of-compressed-fatbins.patch";
-    })
-    (fetchpatch {
-      # improve rocclr isa compatibility check
-      sha256 = "sha256-wUrhpYN68AbEXeFU5f366C6peqHyq25kujJXY/bBJMs=";
-      url = "https://github.com/GZGavinZhao/clr/commit/22c17a0ac09c6b77866febf366591f669a1ed133.patch";
-    })
-    (fetchpatch {
-      # [PATCH] Improve hipamd compat check
-      sha256 = "sha256-uZQ8rMrWH61CCbxwLqQGggDmXFmYTi6x8OcgYPrZRC8=";
-      url = "https://github.com/GZGavinZhao/clr/commit/63c6ee630966744d4199fdfb854e98d2da9e1122.patch";
-    })
-    (fetchpatch {
-      # [PATCH] SWDEV-504340 - Move cast of cl_mem inside the condition
-      # Fixes crash due to UB in KernelBlitManager::setArgument
-      sha256 = "sha256-nL4CZ7EOXqsTVUtYhuu9DLOMpnMeMRUhkhylEQLTg9I=";
-      url = "https://github.com/ROCm/clr/commit/fa63919a6339ea2a61111981ba2362c97fbdf743.patch";
-    })
     (fetchpatch {
       # [PATCH] SWDEV-507104 - Removes alignment requirement for Semaphore class to resolve runtime misaligned memory issues
       sha256 = "sha256-nStJ22B/CM0fzQTvYjbHDbQt0GlE8DXxVK+UDU9BAx4=";
