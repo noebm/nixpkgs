@@ -3,19 +3,20 @@
   stdenv,
   fetchFromGitHub,
   rocmUpdateScript,
+  libdrm,
   cmake,
   wrapPython,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "rocm-smi";
-  version = "6.3.3";
+  version = "6.4.2";
 
   src = fetchFromGitHub {
     owner = "ROCm";
     repo = "rocm_smi_lib";
     rev = "rocm-${finalAttrs.version}";
-    hash = "sha256-j9pkyUt+p6IkhawIhiTymqDBydxXZunxmdyCyRN0RxE=";
+    hash = "sha256-va3HfdQZDm3EDup0FPEztsxui44KBPZQt2x+vCt7zto=";
   };
 
   patches = [ ./cmake.patch ];
@@ -23,6 +24,10 @@ stdenv.mkDerivation (finalAttrs: {
   nativeBuildInputs = [
     cmake
     wrapPython
+  ];
+
+  buildInputs = [
+    libdrm
   ];
 
   cmakeFlags = [
