@@ -19,13 +19,13 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "rocm-runtime";
-  version = "6.3.3";
+  version = "6.4.2";
 
   src = fetchFromGitHub {
     owner = "ROCm";
     repo = "ROCR-Runtime";
     rev = "rocm-${finalAttrs.version}";
-    hash = "sha256-du20+5VNYgwchGO7W7FIVebBqLPtfSBnmPVbPpgEZjo=";
+    hash = "sha256-zs0nydwYUY+8uiPyJxgTfAiV7spUMbESb0jUUvFf+AU=";
   };
 
   env.CFLAGS = "-I${numactl.dev}/include -I${elfutils.dev}/include -w";
