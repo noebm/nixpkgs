@@ -38,9 +38,7 @@ stdenv.mkDerivation (finalAttrs: {
   '';
 
   pname = "composable_kernel_base";
-  # Picked this version over 6.3 because much easier to get to build
-  # and it matches the version torch 2.6 wants
-  version = "6.4.0-unstable-20241220";
+  version = "6.4.2";
 
   outputs = [
     "out"
@@ -55,8 +53,8 @@ stdenv.mkDerivation (finalAttrs: {
   src = fetchFromGitHub {
     owner = "ROCm";
     repo = "composable_kernel";
-    rev = "07339c738396ebeae57374771ded4dcf11bddf1e";
-    hash = "sha256-EvEBxlOpQ71BF57VW79WBo/cdxAwTKFXFMiYKyGyyEs=";
+    rev = "rocm-${finalAttrs.version}";
+    hash = "sha256-hJzJuZuxCvGm6GMBYm7+QeQhNJy2sKpwyyRVjYZAaDo=";
   };
 
   nativeBuildInputs = [
