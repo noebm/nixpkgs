@@ -11,6 +11,7 @@
   simplejson,
   ujson,
   orjson,
+  distro,
   pandas,
   joblib,
   filelock,
@@ -69,6 +70,7 @@ buildPythonPackage rec {
     simplejson
     ujson
     orjson
+    distro
   ];
 
   patches =
