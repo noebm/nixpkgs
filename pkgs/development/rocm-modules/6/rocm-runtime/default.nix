@@ -63,11 +63,6 @@ stdenv.mkDerivation (finalAttrs: {
       hash = "sha256-CshJJDvII1nNyNmt+YjwMwfBHUTlrdsxkhwfgBwO+WE=";
     })
     (fetchpatch {
-      # [PATCH] rocr: refactor of runtime.cpp based on Coverity
-      url = "https://github.com/ROCm/ROCR-Runtime/commit/441bd9fe6c7bdb5c4c31f71524ed642786bc923e.patch";
-      hash = "sha256-7bQXxGkipzgT2aXRxCuh3Sfmo/zc/IOmA0x1zB+fMb0=";
-    })
-    (fetchpatch {
       # [PATCH] queues: fix UB due to 1 << 31
       url = "https://github.com/ROCm/ROCR-Runtime/commit/9b8a0f5dbee1903fa990a7d8accc1c5fbc549636.patch";
       hash = "sha256-KlZWjfngH8yKly08iwC+Bzpvp/4dkaTpRIKdFYwRI+U=";
