@@ -4,6 +4,7 @@
   fetchFromGitHub,
   rocmUpdateScript,
   cmake,
+  fetchpatch,
   rocm-cmake,
   clr,
   python3,
@@ -19,7 +20,6 @@
   hipblas-common,
   hipblaslt,
   python3Packages,
-  roctracer,
   rocm-smi,
   buildTensile ? true,
   buildTests ? true,
@@ -76,6 +76,20 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-FCzo/BOk4xLEFkdOdqcCXh4a9t3/OIIBEy8oz6oOMWg=";
   };
 
+  patches = [
+    # roctx dependency not handled
+    # this makes it conditional and adds ifdef flags
+    (fetchpatch {
+      url = "https://github.com/ROCm/rocBLAS/commit/5d4c577b59cf1039d231e1b894ad81114f2be1f0.patch";
+      includes = [ "library/CMakeLists.txt" ];
+      hash = "sha256-IRXJC2m28PDodmuxI6AqPcoSqK9/tBchn+In7raR8hE=";
+    })
+    # port of the logging file changes in the above patch
+    ./roctx-logging.patch
+    # update to the above to include preprocessor var in tests
+    ./roctx-cmake-propagate-flag.patch
+  ];
+
   nativeBuildInputs = [
     cmake
     # no ninja, it buffers console output and nix times out long periods of no output
@@ -90,7 +104,6 @@ stdenv.mkDerivation (finalAttrs: {
   buildInputs = [
     python3
     hipblas-common
-    roctracer
   ]
   ++ lib.optionals withHipBlasLt [
     hipblaslt
