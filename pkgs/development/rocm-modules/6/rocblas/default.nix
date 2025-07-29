@@ -19,6 +19,7 @@
   hipblas-common,
   hipblaslt,
   python3Packages,
+  roctracer,
   rocm-smi,
   buildTensile ? true,
   buildTests ? true,
@@ -89,6 +90,7 @@ stdenv.mkDerivation (finalAttrs: {
   buildInputs = [
     python3
     hipblas-common
+    roctracer
   ]
   ++ lib.optionals withHipBlasLt [
     hipblaslt
