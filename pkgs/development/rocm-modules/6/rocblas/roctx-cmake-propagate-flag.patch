@@ -1,0 +1,11 @@
+--- src/library/CMakeLists.txt	2025-07-29 17:58:37.873811625 +0200
++++ src/library/CMakeLists.txt	2025-07-29 17:58:53.431712176 +0200
+@@ -124,7 +124,7 @@
+           message(WARNING "Library 'roctx64' not found. ROCTX_PATH: '${ROCTX_PATH}' Default PATH: '/opt/rocm/lib'.")
+         endif()
+ 
+-        target_compile_definitions(${lib_target_} PRIVATE "DISABLE_ROCTX")
++        target_compile_definitions(${lib_target_} PUBLIC "DISABLE_ROCTX")
+       endif()
+     endif()
+   endif()

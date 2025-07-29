@@ -1,0 +1,51 @@
+diff -u src/library/src/include/logging.hpp src/library/src/include/logging.hpp
+--- src/library/src/include/logging.hpp	2025-07-29 16:36:04.089816510 +0200
++++ src/library/src/include/logging.hpp	2025-07-29 16:44:50.378366874 +0200
+@@ -40,9 +40,11 @@
+ #include <unordered_map>
+ #include <utility>
+ 
++#ifndef DISABLE_ROCTX
+ #if !defined(ROCBLAS_STATIC_LIB) && !defined(WIN32)
+ #include <roctracer/roctx.h>
+ #endif
++#endif
+ 
+ /************************************************************************************
+  * Profile kernel arguments
+@@ -453,16 +455,18 @@
+ public:
+     Logger() = default;
+ 
+-#if !defined(ROCBLAS_STATIC_LIB) && !defined(WIN32)
+     void log_range(const std::string& name)
+     {
++#ifndef DISABLE_ROCTX
++#if !defined(ROCBLAS_STATIC_LIB) && !defined(WIN32)
+         if(!m_active)
+         {
+             roctxRangePush(name.c_str());
+             m_active = true;
+         }
+-    }
+ #endif
++#endif
++    }
+ 
+     template <typename H, typename... Ts>
+     void log_arguments(rocblas_internal_ostream& os, const char* sep, H&& head, Ts&&... xs)
+@@ -527,12 +531,14 @@
+ 
+     ~Logger()
+     {
++#ifndef DISABLE_ROCTX
+ #if !defined(ROCBLAS_STATIC_LIB) && !defined(WIN32)
+         if(m_active)
+         {
+             roctxRangePop();
+         }
+ #endif
++#endif
+     }
+ 
+ private:
