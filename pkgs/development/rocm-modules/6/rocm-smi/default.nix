@@ -26,7 +26,7 @@ stdenv.mkDerivation (finalAttrs: {
     wrapPython
   ];
 
-  buildInputs = [
+  propagatedBuildInputs = [
     libdrm
   ];
 
