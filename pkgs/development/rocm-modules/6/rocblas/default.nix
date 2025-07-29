@@ -128,16 +128,6 @@ stdenv.mkDerivation (finalAttrs: {
     python3Packages.pyyaml
   ];
 
-  dontStrip = true;
-  env.CXXFLAGS =
-    "-O3 -DNDEBUG -I${hipblas-common}/include"
-    + lib.optionalString (buildTests || buildBenchmarks) " -I${amd-blis}/include/blis";
-  # Fails to link tests if we don't add amd-blis libs
-  env.LDFLAGS = lib.optionalString (
-    buildTests || buildBenchmarks
-  ) "-Wl,--as-needed -L${amd-blis}/lib -lblis-mt -lcblas";
-  env.TENSILE_ROCM_ASSEMBLER_PATH = "${stdenv.cc}/bin/clang++";
-
   cmakeFlags = [
     (lib.cmakeFeature "CMAKE_BUILD_TYPE" "Release")
     (lib.cmakeBool "CMAKE_VERBOSE_MAKEFILE" true)
