@@ -156,6 +156,7 @@ stdenv.mkDerivation (finalAttrs: {
   ++ lib.optionals buildTensile [
     "-DCPACK_SET_DESTDIR=OFF"
     "-DLINK_BLIS=ON"
+    "-DBLIS_INCLUDE_DIR=${amd-blis}/include/blis/"
     "-DTensile_CODE_OBJECT_VERSION=default"
     "-DTensile_LOGIC=asm_full"
     "-DTensile_LIBRARY_FORMAT=msgpack"
