@@ -150,8 +150,13 @@ let
       };
 
       rocblas = self.callPackage ./rocblas {
-        buildTests = true;
-        buildBenchmarks = true;
+        # FIXME: Building the client subdirectory (which contains tests and benchmarks fails due to missing transitive dependencies in headers - specifically libdrm and ?).
+        # Adding the dependencies manual does not seem to work.
+        # Maybe its how the dependencies are passed to the subprojects,
+        # so splitting the build into separate derivations with separate dependencies might work.
+
+        buildTests = false;
+        buildBenchmarks = false;
       };
 
       rocsolver = self.callPackage ./rocsolver { };
